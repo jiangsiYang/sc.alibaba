@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>nacos-config</module>
+        <module>nacos-spring-cloud-discovery</module>
     </modules>
 
 
