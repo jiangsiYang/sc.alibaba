@@ -24,4 +24,6 @@ public class NacosProviderApplication {
             return "Hello Nacos Discovery " + string;
         }
     }
+
+
 }
