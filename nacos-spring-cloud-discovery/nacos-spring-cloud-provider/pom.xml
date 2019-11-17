@@ -27,7 +27,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!--非常重要，上面的exclusion nacos-client 之后，这里要显示依赖进来  -->
+        <!--非常重要，上面的exclusion nacos-client 之后，这里要显示依赖进来 -->
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-client</artifactId>
