@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/feign")
 public class FeignController {
 
-//    @Autowired
-//    private FeignClient client;
+    @Autowired
+    private FeignClientBean client;
 
-//    @GetMapping("/test")
-//    public String test() {
-//        String result = client.hello("didi");
-//        return "Return : " + result;
-//    }
+    @GetMapping("/test")
+    public String test() {
+        String result = client.hello("didi");
+        return "Return : " + result;
+    }
 }

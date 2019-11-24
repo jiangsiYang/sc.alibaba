@@ -4,10 +4,7 @@ package com.alibaba.nacos;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -23,7 +20,15 @@ public class NacosProviderApplication {
         public String echo(@PathVariable String string) {
             return "Hello Nacos Discovery " + string;
         }
+
+        @GetMapping("/hello")
+        public String hello(@RequestParam String name) {
+            System.out.println("invoked name = " + name);
+            return "hello " + name;
+        }
     }
+
+
 
 
 }
