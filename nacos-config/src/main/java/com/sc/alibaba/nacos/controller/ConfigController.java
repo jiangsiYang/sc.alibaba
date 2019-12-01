@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/config")
 @RefreshScope
 public class ConfigController {
-    @NacosValue("${useLocalCache:false}")
-    private boolean useLocalCache;
+    @Value("${useLocalCache:hhhh}")
+    private String useLocalCache;
 
     @RequestMapping("/get")
-    public boolean get() {
+    public String get() {
         return useLocalCache;
     }
 
