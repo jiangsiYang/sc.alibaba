@@ -15,6 +15,7 @@ public class FeignController {
 
     @GetMapping("/test")
     public String test() {
+        //调用其它微服务和调用本地一样的手感
         String result = client.hello("didi");
         return "Return : " + result;
     }
