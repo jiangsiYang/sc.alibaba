@@ -11,6 +11,7 @@
     <modules>
         <module>nacos-config</module>
         <module>nacos-spring-cloud-discovery</module>
+        <module>sentinel-rate-limiting</module>
     </modules>
 
     <properties>
