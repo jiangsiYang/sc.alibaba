@@ -52,6 +52,16 @@
                 <scope>import</scope>
             </dependency>
 
+
+            <!-- 这个是dubbo 依赖用的,即spring-cloud-starter-dubbo   -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>0.2.2.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
         </dependencies>
 
 
