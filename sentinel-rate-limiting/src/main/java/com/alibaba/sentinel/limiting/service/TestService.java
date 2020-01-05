@@ -24,6 +24,11 @@ public class TestService {
     }
 
 
+    /**
+     * 使用非注解@SentinelResource 的例子
+     *
+     * @param argsp
+     */
     public static void main(String argsp[]){
         testOriginCode();
     }
