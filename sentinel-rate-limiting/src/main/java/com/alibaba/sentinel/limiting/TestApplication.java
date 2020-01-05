@@ -18,9 +18,5 @@ public class TestApplication {
         SpringApplication.run(TestApplication.class, args);
     }
 
-    @Bean
-    public SentinelResourceAspect sentinelResourceAspect() {
-        return new SentinelResourceAspect();
-    }
 
 }

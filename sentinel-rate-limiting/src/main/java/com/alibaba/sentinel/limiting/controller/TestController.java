@@ -1,6 +1,6 @@
 package com.alibaba.sentinel.limiting.controller;
 
-import com.alibaba.sentinel.limiting.SimulateProperties;
+import com.alibaba.sentinel.limiting.config.SimulateProperties;
 import com.alibaba.sentinel.limiting.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
