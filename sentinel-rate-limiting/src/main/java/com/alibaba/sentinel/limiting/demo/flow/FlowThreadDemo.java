@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * 2.1 并发线程数流量控制
  * 并发线程数限流用于保护业务线程数不被耗尽。例如，当应用所依赖的下游应用由于某种原因导致服务不稳定、响应延迟增加，对于调用者来说，意味着吞吐量下降和更多的线程数占用，极端情况下甚至导致线程池耗尽。为应对太多线程占用的情况，业内有使用隔离的方案，比如通过不同业务逻辑使用不同线程池来隔离业务自身之间的资源争抢（线程池隔离）。这种隔离方案虽然隔离性比较好，但是代价就是线程数目太多，线程上下文切换的 overhead 比较大，特别是对低延时的调用有比较大的影响。Sentinel 并发线程数限流不负责创建和管理线程池，而是简单统计当前请求上下文的线程数目，如果超出阈值，新的请求会被立即拒绝，效果类似于信号量隔离。
- *
+ * <p>
  * 例子参见：ThreadDemo
  */
 
@@ -47,8 +47,10 @@ public class FlowThreadDemo {
                         Entry methodA = null;
                         try {
                             TimeUnit.MILLISECONDS.sleep(5);
+                            //定义资源点methodA
                             methodA = SphU.entry("methodA");
                             activeThread.incrementAndGet();
+                            //定义资源点methodB
                             Entry methodB = SphU.entry("methodB");
                             TimeUnit.MILLISECONDS.sleep(methodBRunningTime);
                             methodB.exit();
@@ -72,6 +74,9 @@ public class FlowThreadDemo {
         }
     }
 
+    /**
+     * 定义一个流控规则methodA,并发线程最大限制是20
+     */
     private static void initFlowRule() {
         List<FlowRule> rules = new ArrayList<FlowRule>();
         FlowRule rule1 = new FlowRule();
