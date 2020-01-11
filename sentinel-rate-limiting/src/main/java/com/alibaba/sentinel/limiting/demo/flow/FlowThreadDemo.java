@@ -75,7 +75,7 @@ public class FlowThreadDemo {
     }
 
     /**
-     * 定义一个流控规则methodA,并发线程最大限制是20
+     * 定义一个流控规则,针对资源名称为methodA,并发线程最大限制是20
      */
     private static void initFlowRule() {
         List<FlowRule> rules = new ArrayList<FlowRule>();
