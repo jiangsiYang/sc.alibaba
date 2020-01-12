@@ -23,6 +23,9 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
  * 其实，它比直接拒绝模式只是单纯的不是一下子能到最大限制qps，而是逐步放开到max qps，对多出来的流量也是直接执行拒绝处理的。
  * 注意：启用了这种模式，就算你设置的max count=5000,一开始的qps=10，然后突然涌入了一波流量大概qps=4000，那么就算这波流量在你的系统的承受范围内（4000<5000）
  * 也会开始“warn up”，会拒绝一些流量，直到放开的流量增加到4000，可以换成CONTROL_BEHAVIOR_DEFAULT模式对比下
+ *
+ * 应该这里的用到了“令牌桶算法”来实现这个加热的操作，即在warmUpPeriodSec时间周期内，把桶里的每per时间产生的令牌增加到最大数量，参考
+ * https://github.com/alibaba/Sentinel/wiki/%E9%99%90%E6%B5%81---%E5%86%B7%E5%90%AF%E5%8A%A8
  */
 
 public class WarmUpFlowDemo {
@@ -63,7 +66,7 @@ public class WarmUpFlowDemo {
         }
         //这是为了模拟一开始的低水位的qps，所以睡了20S，20S后开始高并发
         Thread.sleep(20000);
-
+        System.out.println("Large amount of traffic is coming");
         /*
          * Start more thread to simulate more qps. Since we use {@link RuleConstant.CONTROL_BEHAVIOR_WARM_UP} as
          * {@link FlowRule#controlBehavior}, real passed qps will increase to {@link FlowRule#count} in
@@ -80,13 +83,13 @@ public class WarmUpFlowDemo {
         List<FlowRule> rules = new ArrayList<FlowRule>();
         FlowRule rule1 = new FlowRule();
         rule1.setResource(KEY);
-        rule1.setCount(20);
-//        rule1.setCount(5000);
+//        rule1.setCount(20);
+        rule1.setCount(5000);
         rule1.setGrade(RuleConstant.FLOW_GRADE_QPS);
         rule1.setLimitApp("default");
         rule1.setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_WARM_UP);
 //        rule1.setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_DEFAULT);
-        //warn up模式，不会一下直接到最大限制（20），而是每秒限制max加10
+        //warmUpPeriodSec 代表期待系统进入稳定状态的时间（即预热时长）。
         rule1.setWarmUpPeriodSec(10);
 
         rules.add(rule1);
