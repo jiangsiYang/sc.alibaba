@@ -1,4 +1,4 @@
-package com.alibaba.sentinel.limiting.demo.flow;
+package com.alibaba.sentinel.limiting.demo.flow.qps;
 
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 
@@ -17,6 +17,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 
 /**
+ * 2.2 QPS流量控制
  * 直接拒绝（RuleConstant.CONTROL_BEHAVIOR_DEFAULT）方式是默认的流量控制方式，当QPS超过任意规则的阈值后，新的请求就会被立即拒绝，
  * 拒绝方式为抛出FlowException。这种方式适用于对系统处理能力确切已知的情况下，比如通过压测确定了系统的准确水位时。具体的例子参见 FlowQpsDemo。
  */

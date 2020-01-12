@@ -1,4 +1,4 @@
-package com.alibaba.sentinel.limiting.demo.flow;
+package com.alibaba.sentinel.limiting.demo.flow.thread;
 
 import com.alibaba.csp.sentinel.Entry;
 import com.alibaba.csp.sentinel.SphU;
@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 2.1 并发线程数流量控制
+ *
  * 并发线程数限流用于保护业务线程数不被耗尽。例如，当应用所依赖的下游应用由于某种原因导致服务不稳定、响应延迟增加，对于调用者来说，意味着吞吐量下降和
  * 更多的线程数占用，极端情况下甚至导致线程池耗尽。为应对太多线程占用的情况，业内有使用隔离的方案，比如通过不同业务逻辑使用不同线程池来隔离业务自身之
  * 间的资源争抢（线程池隔离）。这种隔离方案虽然隔离性比较好，但是代价就是线程数目太多，线程上下文切换的 overhead 比较大，特别是对低延时的调用有比较大
