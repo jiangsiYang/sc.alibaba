@@ -1,7 +1,9 @@
 package com.alibaba.sentinel.limiting.service;
 
 import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.EntryType;
 import com.alibaba.csp.sentinel.SphU;
+import com.alibaba.csp.sentinel.Tracer;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
@@ -29,7 +31,7 @@ public class TestService {
      *
      * @param argsp
      */
-    public static void main(String argsp[]){
+    public static void main(String argsp[]) {
         testOriginCode();
     }
 
@@ -72,5 +74,29 @@ public class TestService {
         flowRule.setCount(20);
         ruleList.add(flowRule);
         FlowRuleManager.loadRules(ruleList);
+    }
+
+
+    /**
+     * 熔断降级
+     *
+     * @param key
+     */
+    public static void testDegrade(String key) {
+        Entry entry = null;
+        try {
+            entry = SphU.entry(key, EntryType.IN);
+            System.out.println("业务开始");
+
+        } catch (Throwable t) {
+            //异常降级仅针对业务异常，对 Sentinel 限流降级本身的异常（BlockException）不生效。为了统计异常比例或异常数，需要通过 Tracer.trace(ex) 记录业务异常
+            if (!BlockException.isBlockException(t)) {
+                Tracer.trace(t);
+            }
+        } finally {
+            if (entry != null) {
+                entry.exit();
+            }
+        }
     }
 }
