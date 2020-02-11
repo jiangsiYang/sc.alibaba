@@ -41,6 +41,8 @@ import com.alibaba.csp.sentinel.util.TimeUtil;
  * </p>
  *
  * @author Carpenter Lee
+ * <p>
+ * 疑问：异常数降级难道没有多少时间清一次错误数吗？不然不断累加总有一刻会达到降级的条件吧？
  */
 public class ExceptionCountDegradeDemo {
     private static final String KEY = "abc";
