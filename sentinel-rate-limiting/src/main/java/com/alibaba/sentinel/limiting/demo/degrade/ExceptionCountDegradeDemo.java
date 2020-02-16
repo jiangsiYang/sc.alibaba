@@ -43,6 +43,8 @@ import com.alibaba.csp.sentinel.util.TimeUtil;
  * @author Carpenter Lee
  * <p>
  * 疑问：异常数降级难道没有多少时间清一次错误数吗？不然不断累加总有一刻会达到降级的条件吧？
+ * 官网上写了是固定1分钟内的异常数，所以应该是这个时间段不能自主设置,参考https://github.com/alibaba/Sentinel/wiki/%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7
+ * 异常数 (DEGRADE_GRADE_EXCEPTION_COUNT)：当资源近 1 分钟的异常数目超过阈值之后会进行熔断。注意由于统计时间窗口是分钟级别的，若 timeWindow 小于 60s，则结束熔断状态后仍可能再进入熔断状态。
  */
 public class ExceptionCountDegradeDemo {
     private static final String KEY = "abc";
@@ -105,6 +107,8 @@ public class ExceptionCountDegradeDemo {
         rule.setResource(KEY);
         // set limit exception count to 4
         rule.setCount(4);
+        //通过计算得到1分钟内的请求为3000个,那么如果想不触发降级,那么count应当设置1500以上
+//        rule.setCount(1600);
         rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT);
         /**
          * When degrading by {@link RuleConstant#DEGRADE_GRADE_EXCEPTION_COUNT}, time window
@@ -113,6 +117,7 @@ public class ExceptionCountDegradeDemo {
          * may still be satisfied.
          */
         //官方建议时间窗口大于60S，否则熔断策略可能会有问题，但是这里设置了10S，还是按60S的情况走，？？？
+        //因为固定是1分钟内的累计异常数达到设定值会触发降级,所以如果时间窗口少于1分钟,就会再次触发降级.
         rule.setTimeWindow(20);
         rules.add(rule);
         DegradeRuleManager.loadRules(rules);
