@@ -1,5 +1,6 @@
 package com.alibaba.sentinel.limiting.controller;
 
+import com.alibaba.csp.sentinel.context.ContextUtil;
 import com.alibaba.sentinel.limiting.service.FlowControlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
