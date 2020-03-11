@@ -1,7 +1,6 @@
 package com.alibaba.sentinel.limiting.controller;
 
 import com.alibaba.sentinel.limiting.service.CircuitBreakingService;
-import com.alibaba.sentinel.limiting.service.FlowControlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +18,9 @@ public class CircuitBreakingController {
     @Autowired
     private CircuitBreakingService circuitBreakingService;
 
-    @GetMapping("/hello")
+    @GetMapping("/rt")
     public String hello() {
-        circuitBreakingService.circuitBreaking("hello " + new Date());
+        circuitBreakingService.rtA("hello " + new Date());
         return "didispace.com";
     }
 
