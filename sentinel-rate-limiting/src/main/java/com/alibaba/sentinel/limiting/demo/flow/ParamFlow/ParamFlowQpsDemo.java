@@ -45,9 +45,9 @@ public class ParamFlowQpsDemo {
                 //这里都是固定一个参数,所以指定针对的热点为第一个参数
                 .setParamIdx(0)
                 .setGrade(RuleConstant.FLOW_GRADE_QPS)
-                //.setDurationInSec(3)
-                //.setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_RATE_LIMITER)
-                //.setMaxQueueingTimeMs(600)
+                .setDurationInSec(3)    //pqs单位可以设置为3S
+//                .setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_RATE_LIMITER)
+//                .setMaxQueueingTimeMs(600)
                 .setCount(5);
 
         // We can set threshold count for specific parameter value individually.
