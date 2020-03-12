@@ -30,6 +30,20 @@ public class TestApplication {
 //        rule.setTimeWindow(5);
 //        rules.add(rule);
 //        DegradeRuleManager.loadRules(rules);
+
+        //按比例
+//        List<DegradeRule> rules = new ArrayList<DegradeRule>();
+//        DegradeRule rule = new DegradeRule();
+//        rule.setResource("exRadioB");
+//        // set limit exception ratio to 0.1
+//        //如果调到0.6即不会降级
+//        rule.setCount(0.1);
+//        rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_RATIO);
+//        rule.setTimeWindow(10);
+////        rule.setMinRequestAmount(20);  //demo有，但是报错，可能是新版本干掉了
+//        rules.add(rule);
+//        DegradeRuleManager.loadRules(rules);
+
         SpringApplication.run(TestApplication.class, args);
     }
 
