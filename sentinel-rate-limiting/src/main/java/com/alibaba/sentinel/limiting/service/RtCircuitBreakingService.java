@@ -5,6 +5,7 @@ import com.alibaba.csp.sentinel.SphU;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.sentinel.limiting.pojo.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -19,6 +20,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class RtCircuitBreakingService {
 
+    @Autowired
+    private RtCircuitBreakingBService rtCircuitBreakingBService;
+
     /**
      * 方法参数可以使用对象类型，只要保证跟降级方法抱持一致即可
      *
@@ -27,12 +31,15 @@ public class RtCircuitBreakingService {
     @SentinelResource(value = "rtA", fallback = "rtFallbackHandlerA")
     public void rtA(User user) {
         System.out.println("A执行了");
-        rtB(user);
+//        rtB(user);
+        rtCircuitBreakingBService.rtB(user);
     }
 
     /**
      * error:为什么这里rtB不能熔断降级呢？因为是被调用的方法吗？
      * 很奇怪，如果A调用B，B有@SentinelResource注解，熔断失效，但是如果用手写的SphU.entry("rtB") 又能生效，说明@SentinelResource 在这种场景下有问题
+     * 这是由于Spring AOP的代理模式特性决定的,导致@SentinelResource根本没有触发，解决方法一：不使用注解，而是手动Sphu.entry;
+     * 解决方法二：将rtB移至另一个类中(RtCircuitBreakingBService)
      */
 //    @SentinelResource(value = "rtB", fallback = "rtFallbackHandlerB")
     public void rtB(User user) {
