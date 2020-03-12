@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * </ul>
  *
  * </p>
- *
+ * <p>
  * Run this demo, and the out put will be like:
  *
  * <pre>
@@ -82,23 +82,7 @@ public class RtDegradeDemo {
                 @Override
                 public void run() {
                     while (true) {
-                        Entry entry = null;
-                        try {
-                            //当我注掉所有的sleep的时候，第一秒还是会触发降级，为啥？？？当我把RT 的count提高到30的时候，第一秒才不会触发降级
-                            TimeUnit.MILLISECONDS.sleep(5);
-                            entry = SphU.entry(KEY);
-                            // token acquired
-                            pass.incrementAndGet();
-                            // sleep 600 ms, as rt
-                            TimeUnit.MILLISECONDS.sleep(600);
-                        } catch (Exception e) {
-                            block.incrementAndGet();
-                        } finally {
-                            total.incrementAndGet();
-                            if (entry != null) {
-                                entry.exit();
-                            }
-                        }
+                        methodA();
                     }
                 }
 
@@ -106,6 +90,30 @@ public class RtDegradeDemo {
             entryThread.setName("working-thread");
             entryThread.start();
         }
+    }
+
+    public static void methodA() {
+        methodB();
+    }
+
+    public static void methodB() {
+        Entry entry = null;
+        try {
+            //当我注掉所有的sleep的时候，第一秒还是会触发降级，为啥？？？当我把RT 的count提高到30的时候，第一秒才不会触发降级
+            TimeUnit.MILLISECONDS.sleep(5);
+            entry = SphU.entry(KEY);
+            // token acquired
+            pass.incrementAndGet();
+            TimeUnit.MILLISECONDS.sleep(600);
+        } catch (Exception e) {
+            block.incrementAndGet();
+        } finally {
+            total.incrementAndGet();
+            if (entry != null) {
+                entry.exit();
+            }
+        }
+
     }
 
     private static void initDegradeRule() {
